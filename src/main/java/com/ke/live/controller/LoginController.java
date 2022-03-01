@@ -4,7 +4,9 @@ import com.alibaba.fastjson.JSON;
 import com.alibaba.fastjson.JSONObject;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.ke.live.miniApp.MiniAppToken;
+import com.ke.live.service.LiveUserService;
 import com.ke.live.utils.HttpUtil;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.client.RestTemplate;
@@ -19,6 +21,9 @@ import java.util.Map;
  */
 @RestController
 public class LoginController {
+
+    @Autowired
+    private LiveUserService liveUserService;
 
     //保存当前用户的token号和openid
     public static Map<String, String> LOGININFO;
@@ -71,6 +76,9 @@ public class LoginController {
         }
         ObjectMapper mapper = new ObjectMapper();
         MiniAppToken miniAppToken = mapper.readValue(openidResult, MiniAppToken.class);
+
+        liveUserService.saveOpenId(miniAppToken.getOpenid(),"wx5cf231d4d4a01697");
+
         results.put("openId", miniAppToken.getOpenid());
 
         LOGININFO =results;

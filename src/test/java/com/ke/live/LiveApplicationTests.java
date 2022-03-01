@@ -10,6 +10,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.context.ApplicationContext;
 
+import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
 
@@ -49,4 +50,15 @@ class LiveApplicationTests {
         liveUserMapper.save(liveUser);
     }
 
+    @Test
+    void testDate(){
+        Date date1 = new Date();
+        Calendar nowTime = Calendar.getInstance();
+        nowTime.add(Calendar.MINUTE, -5);
+        if (date1.before(nowTime.getTime())){
+            System.out.println("1");
+        }else {
+            System.out.println("12");
+        }
+    }
 }

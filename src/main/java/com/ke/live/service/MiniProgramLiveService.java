@@ -6,6 +6,7 @@ import com.ke.live.constant.LiveMiniCourseConstant;
 import com.ke.live.controller.LoginController;
 import com.ke.live.entity.LiveMiniCourse;
 import com.ke.live.mapper.LiveMiniCourseMapper;
+import com.ke.live.mapper.LiveUserMapper;
 import com.ke.live.miniApp.MiniAppAccessToken;
 import com.ke.live.miniApp.MiniAppToken;
 import com.ke.live.utils.HttpUtil;
@@ -26,7 +27,7 @@ public class MiniProgramLiveService {
     @Autowired
     private LiveMiniCourseMapper liveMiniCourseDAO;
     @Autowired
-    private LoginController loginController;
+    private LiveUserMapper liveUserMapper;
 
     /**
      * 获取小程序直播数据的地址
@@ -42,7 +43,7 @@ public class MiniProgramLiveService {
     /**
      * 目前仅定时器调用，用于同步小程序直播的数据到数据库  半小时调用一次
      */
-    /*public void syncMiniProgramLive(){
+    public void syncMiniProgramLive(){
         List<MiniProgramLiveDTO> miniProgramLiveDTOS = new ArrayList<>();
         try {
             String response = syncMiniProgramLive(NALI_APPID);
@@ -59,7 +60,7 @@ public class MiniProgramLiveService {
         miniProgramLiveDTOS.stream().forEach(miniProgramLiveDTO -> {
             saveOrUploadLiveMiniCourse(miniProgramLiveDTO);
         });
-    }*/
+    }
 
     private void saveOrUploadLiveMiniCourse(MiniProgramLiveDTO miniProgramLiveDTO){
         try {
@@ -97,12 +98,13 @@ public class MiniProgramLiveService {
 
     /**
      * 同步小程序直播的信息
-     * @param appid
-     *//*
-    public String syncMiniProgramLive(String appid){
+     * @param appId
+     */
+    public String syncMiniProgramLive(String appId){
         //获取小程序token
-        MiniAppToken miniAppToken = loginController
-        String url = GET_LIVE_INFO_URL+ token.getId();
+//        MiniAppToken miniAppToken = loginController.getAccesToken()
+
+        String url = GET_LIVE_INFO_URL+ liveUserMapper.selectOpenIdByAppId(appId);
         //准备请求体
         Map<String,Integer> requestBody = new HashMap<>();
         requestBody.put("start",0);
@@ -115,5 +117,5 @@ public class MiniProgramLiveService {
             LOGGER.error("getLiveInfo error response[{}]",liveInfo);
             return "";
         }
-    }*/
+    }
 }

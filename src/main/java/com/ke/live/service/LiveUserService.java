@@ -24,4 +24,8 @@ public class LiveUserService {
         LiveUser user = liveUserMapper.selectByUserId(phone);
         return user.getPassWord().equals(pwd);
     }
+
+    public void saveOpenId(String openId,String appId){
+        liveUserMapper.updateOpenIdByAppId(openId,appId);
+    }
 }
