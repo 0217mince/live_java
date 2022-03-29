@@ -33,10 +33,10 @@ public class BeanUtils {
         return val;
     }
 
-//    public static <T> T getProperty(Object bean, String nm, Class<T> type) {
-//        Object val = getProperty(bean, nm);
-//        return ConversionUtils.convert(val, type);
-//    }
+    public static <T> T getProperty(Object bean, String nm, Class<T> type) {
+        Object val = getProperty(bean, nm);
+        return ObjectCopyUtils.convert(val, type);
+    }
 
     public static void setProperty(Object bean, String nm, Object v) {
         MVEL.setProperty(bean, nm, v);

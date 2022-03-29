@@ -42,6 +42,7 @@ public class MiniProgramLiveOperateService {
     public QueryResult<LiveMiniCourseDTO> findAllLiveSourceBySearchCriteria(LiveMiniCourseSearchDTO liveMiniCourseSearchDTO){
         LOGGER.info("findAllLiveSourceBySearchCriteria liveMiniCourseOperate[{}]", JSONObject.toJSONString(liveMiniCourseSearchDTO));
         QueryResult<LiveMiniCourseDTO> result = new QueryResult<>();
+        System.out.println(liveMiniCourseSearchDTO.toString());
         List<LiveMiniCourse> liveMiniCourses = liveMiniCourseDAO.findLiveMiniCourseByOperateDTO(liveMiniCourseSearchDTO);
         List<LiveMiniCourseDTO> liveMiniCourseDTOList = new ArrayList<>();
         liveMiniCourses.forEach(

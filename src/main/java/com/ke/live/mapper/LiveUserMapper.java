@@ -6,6 +6,8 @@ import org.apache.ibatis.annotations.Mapper;
 import org.apache.ibatis.annotations.Select;
 import org.apache.ibatis.annotations.Update;
 
+import java.util.List;
+
 /**
  * @author 小凡
  */
@@ -42,4 +44,7 @@ public interface LiveUserMapper {
      */
     @Select("select open_id from live_user where app_id = #{appId}")
     String selectOpenIdByAppId(String appId);
+
+    @Select("select * from live_user")
+    List<LiveUser> findAll();
 }

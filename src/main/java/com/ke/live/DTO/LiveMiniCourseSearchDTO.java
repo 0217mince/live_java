@@ -17,6 +17,6 @@ public class LiveMiniCourseSearchDTO implements Serializable {
     private Date endTime;
     private String anchorName;
     private String liveStudioTitle;
-    private Integer start;
-    private Integer limit;
+    private Integer page;
+    private Integer size;
 }

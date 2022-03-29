@@ -19,9 +19,12 @@ public class LiveUserService {
     @Autowired
     private LiveUserMapper liveUserMapper;
 
-    public boolean verifyPassword(String phone,String pwd){
+    public boolean verifyPassword(String phone,String pwd) throws Exception {
         logger.info("phone=[{}] + pwd=[{}]",phone,pwd);
         LiveUser user = liveUserMapper.selectByUserId(phone);
+        if (null == user){
+            throw new Exception("用户名不存在");
+        }
         return user.getPassWord().equals(pwd);
     }
 

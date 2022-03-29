@@ -20,7 +20,7 @@ import java.util.Map;
  * @author 小凡
  */
 @RestController
-public class LoginController {
+public class WXLoginController {
 
     @Autowired
     private LiveUserService liveUserService;

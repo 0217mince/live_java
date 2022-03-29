@@ -18,7 +18,7 @@ public interface LiveMiniCourseLabelMapper {
      * @param roomId 直播间ID
      * @return List<LiveRelationLabel>
      */
-    @Select("select * from live_mini_course_label where room_id =:roomId order by live_label")
+    @Select("select * from live_mini_course_label where room_id =#{roomId} order by id")
     List<LiveMiniCourseLabel> findLiveLabelByRoomId(Integer roomId);
 
     /**
@@ -26,7 +26,7 @@ public interface LiveMiniCourseLabelMapper {
      *
      * @param roomId 直播间ID
      */
-    @Delete("delete LiveMiniCourseLabel where room_id =:roomId")
+    @Delete("delete LiveMiniCourseLabel where room_id =#{roomId}")
     void deleteLiveLabelByRoomId(Integer roomId);
     /**
      * 插入一条新数据

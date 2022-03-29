@@ -47,6 +47,9 @@ public interface LiveMiniCourseMapper {
             "<if test='liveStudioTitle != null'>" +
             " and live_studio_title like concat('%',#{liveStudioTitle,jdbcType=VARCHAR},'%')" +
             "</if>" +
+            "<if test='page != null'>" +
+            " and limit (#{page},#{size})" +
+            "</if>" +
             "</where>" +
             "</script>")
     ArrayList<LiveMiniCourse> findLiveMiniCourseByOperateDTO(LiveMiniCourseSearchDTO liveMiniCourseSearchDTO);
