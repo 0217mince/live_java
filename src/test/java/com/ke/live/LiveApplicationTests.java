@@ -3,8 +3,10 @@ package com.ke.live;
 import com.ke.live.DTO.LiveMiniCourseSearchDTO;
 import com.ke.live.entity.LiveMiniCourse;
 import com.ke.live.entity.LiveUser;
+import com.ke.live.entity.ScratchableBox;
 import com.ke.live.mapper.LiveMiniCourseMapper;
 import com.ke.live.mapper.LiveUserMapper;
+import com.ke.live.mapper.ScratcahableBoxMapper;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
@@ -21,6 +23,8 @@ class LiveApplicationTests {
     LiveMiniCourseMapper liveMiniCourseMapper;
     @Autowired
     LiveUserMapper liveUserMapper;
+    @Autowired
+    ScratcahableBoxMapper scratcahableBoxMapper;
 
     @Test
     void contextLoads() {
@@ -60,5 +64,14 @@ class LiveApplicationTests {
         }else {
             System.out.println("12");
         }
+    }
+    @Test
+    void testLabel(){
+        List<ScratchableBox> scratchableBoxList = scratcahableBoxMapper.findAllByBelonging("admin");
+        scratchableBoxList.forEach(
+                scratchableBox -> {
+                    System.out.println(scratchableBox.toString());
+                }
+        );
     }
 }

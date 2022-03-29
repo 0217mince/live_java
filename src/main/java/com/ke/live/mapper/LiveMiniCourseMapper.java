@@ -47,10 +47,11 @@ public interface LiveMiniCourseMapper {
             "<if test='liveStudioTitle != null'>" +
             " and live_studio_title like concat('%',#{liveStudioTitle,jdbcType=VARCHAR},'%')" +
             "</if>" +
-            "<if test='page != null'>" +
-            " and limit (#{page},#{size})" +
-            "</if>" +
             "</where>" +
+            "ORDER BY abs(TIMEDIFF(start_time,now()))"+
+            "<if test='page != null'>" +
+            "  limit #{page},#{size}" +
+            "</if>" +
             "</script>")
     ArrayList<LiveMiniCourse> findLiveMiniCourseByOperateDTO(LiveMiniCourseSearchDTO liveMiniCourseSearchDTO);
 
@@ -94,7 +95,7 @@ public interface LiveMiniCourseMapper {
      * @param roomId 直播间ID
      * @param reviewStatus 审核状态
      */
-    @Update("update live_mini_course set review_status=#{reviewStatus where room_id=#{roomId}}")
+    @Update("update live_mini_course set review_status=#{reviewStatus} where room_id=#{roomId}")
     void updateReviewStatusByRoomId(Integer roomId,Integer reviewStatus);
 
     /**

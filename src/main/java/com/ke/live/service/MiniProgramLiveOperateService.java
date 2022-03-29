@@ -13,6 +13,7 @@ import com.ke.live.mapper.LiveMiniCourseMapper;
 import com.ke.live.utils.BeanUtils;
 import com.ke.live.utils.ObjectCopyUtils;
 import com.ke.live.utils.QueryResult;
+import com.ke.live.utils.ValidateUtil;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -41,6 +42,7 @@ public class MiniProgramLiveOperateService {
      */
     public QueryResult<LiveMiniCourseDTO> findAllLiveSourceBySearchCriteria(LiveMiniCourseSearchDTO liveMiniCourseSearchDTO){
         LOGGER.info("findAllLiveSourceBySearchCriteria liveMiniCourseOperate[{}]", JSONObject.toJSONString(liveMiniCourseSearchDTO));
+        liveMiniCourseSearchDTO.setPage(liveMiniCourseSearchDTO.getPage()*liveMiniCourseSearchDTO.getSize());
         QueryResult<LiveMiniCourseDTO> result = new QueryResult<>();
         System.out.println(liveMiniCourseSearchDTO.toString());
         List<LiveMiniCourse> liveMiniCourses = liveMiniCourseDAO.findLiveMiniCourseByOperateDTO(liveMiniCourseSearchDTO);
@@ -48,6 +50,7 @@ public class MiniProgramLiveOperateService {
         liveMiniCourses.forEach(
                 liveMiniCourse -> {
                     LiveMiniCourseDTO liveMiniCourseDTO = BeanUtils.map(liveMiniCourse, LiveMiniCourseDTO.class);
+                    liveMiniCourseDTO.setLiveStudioStatusText(getStatusText(liveMiniCourseDTO.getLiveStudioStatus()));
                     //将直播状态归纳成运营平台需要展示的状态
                     liveMiniCourseDTO.setLiveStudioStatus(sortLiveStatus(liveMiniCourse.getLiveStudioStatus()));
                     //读取这个直播标签对象
@@ -67,7 +70,11 @@ public class MiniProgramLiveOperateService {
     /**
      * 运营平台审核直播操作
      */
-    public void auditLiveToUpdateReviewStatus(Integer roomId){
+    public void auditLiveToUpdateReviewStatus(Integer roomId) throws Exception {
+        LOGGER.info("auditLiveToUpdateReviewStatus roomIf:[{}]",roomId);
+        if (ValidateUtil.nullOrZeroInteger(roomId)){
+            throw new Exception("直播房间号不存在！");
+        }
         if (liveMiniCourseDAO.getLiveMiniCourseByRoomId(roomId).getReviewStatus().equals(LiveMiniCourseConstant.THIRD_LIVE_REVIEW_NO)){
             //将审核状态更新为已审核，0为未审核，1为已审核
             liveMiniCourseDAO.updateReviewStatusByRoomId(roomId,LiveMiniCourseConstant.THIRD_LIVE_REVIEW_YES);
@@ -104,5 +111,35 @@ public class MiniProgramLiveOperateService {
         } else {
             return liveStudioStatus;
         }
+    }
+
+    public String getStatusText(Integer status){
+        String statusText = null;
+        switch (status){
+            case 101:
+                statusText = "直播中";
+                break;
+            case 102:
+                statusText = "未开始";
+                break;
+            case 103:
+                statusText = "已结束";
+                break;
+            case 104:
+                statusText = "禁播";
+                break;
+            case 105:
+                statusText = "暂停";
+                break;
+            case 106:
+                statusText = "异常";
+                break;
+            case 107:
+                statusText = "已过期";
+                break;
+            default:
+
+        }
+        return statusText;
     }
 }

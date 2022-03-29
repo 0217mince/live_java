@@ -1,5 +1,6 @@
 package com.ke.live.DTO;
 
+import com.fasterxml.jackson.annotation.JsonFormat;
 import lombok.Data;
 
 import java.util.Date;
@@ -15,6 +16,7 @@ public class LiveMiniCourseLabelDTO {
     private Integer roomId;
     private String liveLabelName;
     private String boxLink;
+    @JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss",timezone = "GMT+8")
     private Date createdTime;
 
     public Integer getId() {

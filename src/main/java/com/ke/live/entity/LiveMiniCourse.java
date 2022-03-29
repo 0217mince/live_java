@@ -33,7 +33,9 @@ public class LiveMiniCourse {
     @TableField("anchor_name")
     private String anchorName;
     @TableField("start_time")
+    @JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss",timezone = "GMT+8")
     private Date startTime;
+    @JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss",timezone = "GMT+8")
     @TableField("end_time")
     private Date endTime;
     @TableField("review_status")

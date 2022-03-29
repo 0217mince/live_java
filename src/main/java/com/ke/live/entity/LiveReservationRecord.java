@@ -30,6 +30,7 @@ public class LiveReservationRecord {
     @TableField("device_id")
     private Integer deviceId;
     @TableField("start_Time")
+    @JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss",timezone = "GMT+8")
     private Date startTime;
     @TableField("message_reminder_status")
     private Integer messageReminderStatus;
