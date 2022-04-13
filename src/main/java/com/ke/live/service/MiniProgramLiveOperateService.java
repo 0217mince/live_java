@@ -8,8 +8,10 @@ import com.ke.live.DTO.LiveMiniCourseSearchDTO;
 import com.ke.live.constant.LiveMiniCourseConstant;
 import com.ke.live.entity.LiveMiniCourse;
 import com.ke.live.entity.LiveMiniCourseLabel;
+import com.ke.live.entity.ScratchableBox;
 import com.ke.live.mapper.LiveMiniCourseLabelMapper;
 import com.ke.live.mapper.LiveMiniCourseMapper;
+import com.ke.live.mapper.ScratcahableBoxMapper;
 import com.ke.live.utils.BeanUtils;
 import com.ke.live.utils.ObjectCopyUtils;
 import com.ke.live.utils.QueryResult;
@@ -34,11 +36,27 @@ public class MiniProgramLiveOperateService {
     private LiveMiniCourseMapper liveMiniCourseDAO;
     @Autowired
     private LiveMiniCourseLabelMapper liveMiniCourseLabelDAO;
+    @Autowired
+    private ScratcahableBoxMapper scratcahableBoxMapper;
 
     private static final Logger LOGGER = LoggerFactory.getLogger(MiniProgramLiveOperateService.class);
 
     /**
      * 运营平台根据搜索提交件分页查询所有直播信息
+     * @param liveMiniCourseSearchDTO 搜索条件{
+     *                                roomId：直播间ID
+     *                                startTime：直播开始时间
+     *                                endTime：直播结束时间
+     *                                anchorName：直播名称
+     *                                page：分页位置
+     *                                size：分页大小
+     * }
+     * @return {
+     *     totalCount：查询的总条数
+     *     start：分页位置
+     *     limit：分页大小
+     *     records：短视频、直播信息
+     * }
      */
     public QueryResult<LiveMiniCourseDTO> findAllLiveSourceBySearchCriteria(LiveMiniCourseSearchDTO liveMiniCourseSearchDTO){
         LOGGER.info("findAllLiveSourceBySearchCriteria liveMiniCourseOperate[{}]", JSONObject.toJSONString(liveMiniCourseSearchDTO));
@@ -69,6 +87,7 @@ public class MiniProgramLiveOperateService {
 
     /**
      * 运营平台审核直播操作
+     * @param roomId 直播间ID
      */
     public void auditLiveToUpdateReviewStatus(Integer roomId) throws Exception {
         LOGGER.info("auditLiveToUpdateReviewStatus roomIf:[{}]",roomId);
@@ -86,18 +105,29 @@ public class MiniProgramLiveOperateService {
 
     /**
      * 运营平台保存直播标签操作
+     * @param roomId 直播间ID
+     * @param liveMiniCourseId 短视频、直播表主键ID
+     * @param categoryIds 标签信息{
+     *                                   id：主键ID
+     *                                   liveMiniCourseId：短视频、直播信息表主键
+     *                                   roomId：直播间ID
+     *                                   liveLabelName：标签名字
+     *                                   boxLink：直播标签key
+     *                                   createdTime：创建时间
+     * }
      */
-    public void updateLiveTag(List<LiveMiniCourseLabelDTO> liveMiniCourseLabelDTOList, Integer roomId, String liveMiniCourseId){
+    public void updateLiveTag(List<Integer> categoryIds, Integer roomId, String liveMiniCourseId){
         LOGGER.info("updateLiveTag start");
         liveMiniCourseLabelDAO.deleteLiveLabelByRoomId(roomId);
         LiveMiniCourseLabel liveMiniCourseLabel = new LiveMiniCourseLabel();
-        for (LiveMiniCourseLabelDTO liveMiniCourseLabelDTO:liveMiniCourseLabelDTOList){
-            liveMiniCourseLabel.setLiveLabelName(liveMiniCourseLabelDTO.getLiveLabelName());
-            liveMiniCourseLabel.setBoxLink(liveMiniCourseLabelDTO.getBoxLink());
+        for (Integer categoryId:categoryIds){
+            ScratchableBox scratchableBox = scratcahableBoxMapper.selectById(categoryId);
+            liveMiniCourseLabel.setLiveLabelName(scratchableBox.getCategoryName());
+            liveMiniCourseLabel.setBoxLink(scratchableBox.getLinkBox());
             liveMiniCourseLabel.setRoomId(roomId);
             liveMiniCourseLabel.setLiveMiniCourseId(liveMiniCourseId);
             liveMiniCourseLabel.setCreatedTime(new Date());
-            liveMiniCourseLabelDAO.save(liveMiniCourseLabel);
+            liveMiniCourseLabelDAO.insert(liveMiniCourseLabel);
         }
     }
 

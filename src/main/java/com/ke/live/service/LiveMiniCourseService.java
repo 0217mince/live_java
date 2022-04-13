@@ -23,8 +23,10 @@ public class LiveMiniCourseService {
 
     /**
      * 预约微信小程序直播
+     * @param roomId 直播间ID
+     * @param userId 微信小程序用户身份主键
      */
-    public void bookingLiveMiniCourse(Integer roomId){
+    public void bookingLiveMiniCourse(Integer roomId,String userId){
         LiveMiniCourse liveMiniCourse = liveMiniCourseMapper.getLiveMiniCourseByRoomId(roomId);
         LiveReservationRecord liveReservationRecord = new LiveReservationRecord();
         liveReservationRecord.setRoomId(roomId);
@@ -33,7 +35,7 @@ public class LiveMiniCourseService {
         liveReservationRecord.setLiveMiniCourseId(liveMiniCourse.getLiveMiniCourseId());
         //生成UUID当作唯一的表ID
         liveReservationRecord.setRecordId(UUID.randomUUID().toString().replaceAll("-",""));
-        liveReservationRecord.setUserId("");
+        liveReservationRecord.setUserId(userId);
         liveReservationRecord.setModifiedTime(new Date());
         //设置预约状态为已预约,1为已预约，0为未预约
         liveReservationRecord.setReservationStatus(1);

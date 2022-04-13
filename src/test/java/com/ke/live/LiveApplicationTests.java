@@ -7,11 +7,13 @@ import com.ke.live.entity.ScratchableBox;
 import com.ke.live.mapper.LiveMiniCourseMapper;
 import com.ke.live.mapper.LiveUserMapper;
 import com.ke.live.mapper.ScratcahableBoxMapper;
+import com.ke.live.service.MiniProgramLiveOperateService;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.context.ApplicationContext;
 
+import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
@@ -25,6 +27,8 @@ class LiveApplicationTests {
     LiveUserMapper liveUserMapper;
     @Autowired
     ScratcahableBoxMapper scratcahableBoxMapper;
+    @Autowired
+    MiniProgramLiveOperateService miniProgramLiveOperateService;
 
     @Test
     void contextLoads() {
@@ -73,5 +77,11 @@ class LiveApplicationTests {
                     System.out.println(scratchableBox.toString());
                 }
         );
+    }
+    @Test
+    void testAddLabel(){
+        List<Integer> list = new ArrayList<>();
+        list.add(1);
+        miniProgramLiveOperateService.updateLiveTag(list,1,"11");
     }
 }

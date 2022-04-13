@@ -1,5 +1,6 @@
 package com.ke.live.mapper;
 
+import com.baomidou.mybatisplus.core.mapper.BaseMapper;
 import com.ke.live.entity.LiveMiniCourseLabel;
 import org.apache.ibatis.annotations.Delete;
 import org.apache.ibatis.annotations.Mapper;
@@ -11,7 +12,7 @@ import java.util.List;
  * @author 小凡
  */
 @Mapper
-public interface LiveMiniCourseLabelMapper {
+public interface LiveMiniCourseLabelMapper extends BaseMapper<LiveMiniCourseLabel> {
     /**
      * 根据直播间Id查询直播标签
      *
@@ -26,7 +27,7 @@ public interface LiveMiniCourseLabelMapper {
      *
      * @param roomId 直播间ID
      */
-    @Delete("delete LiveMiniCourseLabel where room_id =#{roomId}")
+    @Delete("delete from live_mini_course_label where room_id =#{roomId}")
     void deleteLiveLabelByRoomId(Integer roomId);
     /**
      * 插入一条新数据

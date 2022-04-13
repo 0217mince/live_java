@@ -1,5 +1,6 @@
 package com.ke.live.entity;
 
+import com.baomidou.mybatisplus.annotation.IdType;
 import com.baomidou.mybatisplus.annotation.TableField;
 import com.baomidou.mybatisplus.annotation.TableId;
 import com.baomidou.mybatisplus.annotation.TableName;
@@ -19,7 +20,7 @@ import java.util.Date;
 @NoArgsConstructor
 @TableName(value = "live_mini_course_label")
 public class LiveMiniCourseLabel {
-    @TableId
+    @TableId(type = IdType.AUTO)
     private Integer id;
     @TableField("live_mini_course_id")
     private String liveMiniCourseId;

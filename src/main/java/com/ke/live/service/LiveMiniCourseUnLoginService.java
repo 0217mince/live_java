@@ -42,6 +42,10 @@ public class LiveMiniCourseUnLoginService {
 
     /**
      * 根据直播标签查找相应的直播
+     * @param startIndex 分页位置
+     * @param pageSize 分页大小
+     * @param boxLink 标签key
+     * @return List<LiveMiniCourseDTO>短视频、直播信息
      */
     public List<LiveMiniCourseDTO> findLiveSourceByLabel(String boxLink, Integer startIndex, Integer pageSize){
         LOGGER.info("findLiveSourceByLabel ==>> boxLink[{}]",boxLink);
