@@ -73,7 +73,20 @@ public class MiniProgramLiveOperateService {
                     liveMiniCourseDTO.setLiveStudioStatus(sortLiveStatus(liveMiniCourse.getLiveStudioStatus()));
                     //读取这个直播标签对象
                     try {
-                        liveMiniCourseDTO.setLiveMiniCourseLabelDTOList(ObjectCopyUtils.convert(liveMiniCourseLabelDAO.findLiveLabelByRoomId(liveMiniCourse.getRoomId()),LiveMiniCourseLabelDTO.class));
+                        List<LiveMiniCourseLabel> liveMiniCourseLabelList = liveMiniCourseLabelDAO.findLiveLabelByRoomId(liveMiniCourse.getRoomId());
+                        liveMiniCourseDTO.setLiveMiniCourseLabelDTOList(ObjectCopyUtils.convert(liveMiniCourseLabelList,LiveMiniCourseLabelDTO.class));
+                        StringBuilder stringBuilder = new StringBuilder();
+                        List<Integer> list = new ArrayList<>(liveMiniCourseLabelList.size());
+                        liveMiniCourseDTO.getLiveMiniCourseLabelDTOList().forEach(
+                                liveMiniCourseLabelDTO -> {
+                                    stringBuilder.append(liveMiniCourseLabelDTO.getLiveLabelName()+",");
+                                    list.add(scratcahableBoxMapper.selectByKey(liveMiniCourseLabelDTO.getBoxLink()).getCategoryId());
+                                }
+                        );
+                        if (ValidateUtil.notBlankString(stringBuilder.toString())){
+                            liveMiniCourseDTO.setLabelNameList(stringBuilder.deleteCharAt(stringBuilder.length() - 1).toString());
+                        }
+                        liveMiniCourseDTO.setLabelList(list);
                     } catch (JsonProcessingException e) {
                         e.printStackTrace();
                     }
@@ -85,7 +98,7 @@ public class MiniProgramLiveOperateService {
         return result;
     }
 
-    /**
+    /**  
      * 运营平台审核直播操作
      * @param roomId 直播间ID
      */
@@ -119,8 +132,8 @@ public class MiniProgramLiveOperateService {
     public void updateLiveTag(List<Integer> categoryIds, Integer roomId, String liveMiniCourseId){
         LOGGER.info("updateLiveTag start");
         liveMiniCourseLabelDAO.deleteLiveLabelByRoomId(roomId);
-        LiveMiniCourseLabel liveMiniCourseLabel = new LiveMiniCourseLabel();
         for (Integer categoryId:categoryIds){
+            LiveMiniCourseLabel liveMiniCourseLabel = new LiveMiniCourseLabel();
             ScratchableBox scratchableBox = scratcahableBoxMapper.selectById(categoryId);
             liveMiniCourseLabel.setLiveLabelName(scratchableBox.getCategoryName());
             liveMiniCourseLabel.setBoxLink(scratchableBox.getLinkBox());

@@ -32,4 +32,6 @@ public class LiveMiniCourseDTO implements Serializable {
     private Date modifiedTime;
     private Integer reservationStatus;
     private List<LiveMiniCourseLabelDTO> liveMiniCourseLabelDTOList;
+    private String labelNameList;
+    private List<Integer> labelList;
 }

@@ -31,4 +31,7 @@ public interface ScratcahableBoxMapper extends BaseMapper<ScratchableBox> {
 
     @Select("select * from scratchablebox where category_id =#{categoryId}")
     ScratchableBox selectById(Integer categoryId);
+
+    @Select("select * from scratchablebox where link_box = #{linkBox}")
+    ScratchableBox selectByKey(String linkBox);
 }
