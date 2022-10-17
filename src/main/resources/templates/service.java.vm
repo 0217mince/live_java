@@ -1,0 +1,69 @@
+package ${package.Service};
+
+import ${package.Entity}.${entity};
+import ${superServiceClassPackage};
+import com.baomidou.mybatisplus.core.metadata.IPage;
+
+import java.util.List;
+
+/**
+ * <p>
+ * $!{table.comment} 服务类
+ * </p>
+ *
+ * @author ${author}
+ * @since ${date}
+ */
+#if(${kotlin})
+interface ${table.serviceName} : ${superServiceClass}<${entity}>
+#else
+public interface ${table.serviceName} extends ${superServiceClass}<${entity}> {
+
+    /**
+     * 分页业务方法
+     * @param search　搜索参数
+     * @param current 分页位置
+     * @param size 分页大小
+     * @return IPage
+     */
+    IPage<$!{entity}> listPage(${entity} search,Integer current,Integer size);
+
+    /**
+     * 不分页业务方法
+     * @param search　搜索参数
+     * @return List
+     */
+    List<$!{entity}> listAll(${entity} search);
+
+
+    /**
+     * 根据Id获取对象
+     * @param id　主键ID
+     * @return ${entity}
+     */
+    ${entity} get(Integer id);
+
+
+    /**
+     * 全部更新
+     * @param entity　更新的对象
+     * @return ${entity}
+     */
+    void update(${entity} entity);
+
+
+    /**
+     * 部分更新
+     * @param entity　更新的对象
+     * @return ${entity}
+     */
+    void patch(${entity} entity);
+
+
+    /**
+     * 根据Id删除对象
+     * @param id　主键ID
+     */
+    void delete(Integer id);
+}
+#end

@@ -1,12 +1,13 @@
 package com.ke.live;
 
 import com.ke.live.DTO.LiveMiniCourseSearchDTO;
+import com.ke.live.config.DataSourceConfiguration;
 import com.ke.live.entity.LiveMiniCourse;
 import com.ke.live.entity.LiveUser;
 import com.ke.live.entity.ScratchableBox;
-import com.ke.live.mapper.LiveMiniCourseMapper;
-import com.ke.live.mapper.LiveUserMapper;
-import com.ke.live.mapper.ScratcahableBoxMapper;
+import com.ke.live.mapper.*;
+import com.ke.live.service.LiveMiniCourseService;
+import com.ke.live.service.LiveMiniCourseUnLoginService;
 import com.ke.live.service.MiniProgramLiveOperateService;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -30,21 +31,28 @@ class LiveApplicationTests {
     @Autowired
     MiniProgramLiveOperateService miniProgramLiveOperateService;
 
+    @Autowired
+    VideoMiniCourseMapper videoMiniCourseMapper;
+    @Autowired
+    HotspotMiniCourseMapper hotspotMiniCourseMapper;
+    @Autowired
+    LiveMiniCourseUnLoginService liveMiniCourseUnLoginService;
+
     @Test
     void contextLoads() {
 
 //        List<LiveMiniCourse> liveMiniCourseList = liveMiniCourseMapper.findAll();
         LiveMiniCourseSearchDTO liveMiniCourseSearchDTO = new LiveMiniCourseSearchDTO();
 //        liveMiniCourseSearchDTO.setRoomId(2);
-//        liveMiniCourseSearchDTO.setAnchorName("吴主任");
+        liveMiniCourseSearchDTO.setAnchorName("吴主任");
 //        liveMiniCourseSearchDTO.setLiveStudioTitle("牙医直播");
-        liveMiniCourseSearchDTO.setStartTime(new Date());
-        liveMiniCourseSearchDTO.setEndTime(new Date());
+//        liveMiniCourseSearchDTO.setStartTime(new Date());
+//        liveMiniCourseSearchDTO.setEndTime(new Date());
         List<LiveMiniCourse> liveMiniCourseList = liveMiniCourseMapper.findLiveMiniCourseByOperateDTO(liveMiniCourseSearchDTO);
-        for (LiveMiniCourse liveMiniCourse: liveMiniCourseList
-        ) {
+        for (LiveMiniCourse liveMiniCourse: liveMiniCourseList) {
             System.out.println(liveMiniCourse.toString());
         }
+        System.out.println(liveMiniCourseList.size());
     }
 
     @Test
@@ -83,5 +91,15 @@ class LiveApplicationTests {
         List<Integer> list = new ArrayList<>();
         list.add(1);
         miniProgramLiveOperateService.updateLiveTag(list,1,"11");
+    }
+
+    @Test
+    void testLabel1(){
+        System.out.println(DataSourceConfiguration.URL);
+    }
+
+    @Test
+    void testLabel2(){
+        System.out.println(liveMiniCourseUnLoginService.getLiveEntrance());
     }
 }

@@ -98,9 +98,7 @@ public class MiniProgramLiveService {
      * @param appId
      */
     public String syncMiniProgramLive(String appId){
-        //获取小程序token
-//        MiniAppToken miniAppToken = loginController.getAccesToken()
-
+        //获取小程序token,拼接url
         String url = GET_LIVE_INFO_URL+ liveUserMapper.selectOpenIdByAppId(appId);
         //准备请求体
         Map<String,Integer> requestBody = new HashMap<>();

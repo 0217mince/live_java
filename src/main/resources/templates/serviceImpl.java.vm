@@ -1,0 +1,113 @@
+package ${package.ServiceImpl};
+
+import ${package.Entity}.${entity};
+import ${package.Mapper}.${table.mapperName};
+import ${package.Service}.${table.serviceName};
+import ${superServiceImplClassPackage};
+import com.alibaba.fastjson.JSONObject;
+import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
+import com.baomidou.mybatisplus.core.conditions.update.LambdaUpdateWrapper;
+import com.baomidou.mybatisplus.core.metadata.IPage;
+import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
+import ctd.util.annotation.RpcBean;
+import ctd.util.annotation.RpcService;
+import org.springframework.stereotype.Service;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
+import java.util.List;
+
+/**
+ * <p>
+ * $!{table.comment} 服务实现类
+ * </p>
+ *
+ * @author ${author}
+ * @since ${date}
+ */
+@Service
+@RpcBean
+public class ${table.serviceImplName} extends ${superServiceImplClass}<${table.mapperName}, ${entity}> implements ${table.serviceName} {
+
+    private static final Logger LOGGER = LoggerFactory.getLogger(${table.serviceImplName}.class);
+
+    @RpcService
+    @Override
+    public IPage<$!{entity}> listPage(${entity} search,Integer current,Integer size){
+        LOGGER.info("listPage ${entity}:[{}]", JSONObject.toJSONString(search));
+
+        LambdaQueryWrapper<${entity}> lambdaQueryWrapper = new LambdaQueryWrapper<>();
+
+        //拼接查询条件
+        splicingQueryCriteria(search,lambdaQueryWrapper);
+
+        return this.baseMapper.selectPage(new Page<>(current,size),lambdaQueryWrapper);
+    }
+
+
+    @RpcService
+    @Override
+    public List<$!{entity}> listAll(${entity} search){
+        LOGGER.info("listAll ${entity}:[{}]", JSONObject.toJSONString(search));
+
+        LambdaQueryWrapper<${entity}> lambdaQueryWrapper = new LambdaQueryWrapper<>();
+
+        return this.baseMapper.selectList(lambdaQueryWrapper);
+    }
+
+
+    @RpcService
+    @Override
+    public ${entity} get(Integer id){
+        LOGGER.info("get ${entity}id:[{}]", id);
+
+        return this.baseMapper.selectById(id);
+    }
+
+
+    @RpcService
+    @Override
+    public void delete(Integer id){
+        LOGGER.info("delete ${entity}id:[{}]", id);
+
+        this.baseMapper.deleteById(id);
+    }
+
+
+    @RpcService
+    @Override
+    public void update(${entity} entity){
+        LOGGER.info("update ${entity}:[{}]", JSONObject.toJSONString(entity));
+
+        this.baseMapper.updateById(entity);
+    }
+
+
+    @RpcService
+    @Override
+    public void patch(${entity} entity){
+        LOGGER.info("patch ${entity}:[{}]", JSONObject.toJSONString(entity));
+
+        LambdaUpdateWrapper<${entity}> lambdaUpdateWrapper = new LambdaUpdateWrapper<>();
+
+    #foreach($field in ${table.fields})
+        #set( $monkey = ${field.propertyName.substring(0, 1).toUpperCase()}+${field.propertyName.substring(1)} )
+        if (null != entity.get$monkey()){
+            lambdaUpdateWrapper.set(${entity}::get$monkey,entity.get$monkey());
+        }
+    #end
+
+        this.baseMapper.update(null,lambdaUpdateWrapper);
+    }
+
+
+    private void splicingQueryCriteria(${entity} search, LambdaQueryWrapper<${entity}> lambdaQueryWrapper){
+    #foreach($field in ${table.fields})
+        #set( $monkey = ${field.propertyName.substring(0, 1).toUpperCase()}+${field.propertyName.substring(1)} )
+        if (null != search.get$monkey()){
+            lambdaQueryWrapper.eq(${entity}::get$monkey,search.get$monkey());
+        }
+    #end
+    }
+}
+

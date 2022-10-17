@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.ke.live.mapper.HotspotMiniCourseMapper">
+
+    <!-- 通用查询映射结果 -->
+    <resultMap id="BaseResultMap" type="com.ke.live.entity.HotspotMiniCourse">
+        <id column="id" property="id" />
+        <result column="hotspot_mini_course_id" property="hotspotMiniCourseId" />
+        <result column="hotspo_type" property="hotspoType" />
+        <result column="hotspot_source" property="hotspotSource" />
+        <result column="hotspot_belonging" property="hotspotBelonging" />
+        <result column="hotspot_title" property="hotspotTitle" />
+        <result column="hotspot_id" property="hotspotId" />
+        <result column="review_status" property="reviewStatus" />
+        <result column="created_time" property="createdTime" />
+        <result column="sort_value" property="sortValue" />
+    </resultMap>
+
+    <!-- 通用查询结果列 -->
+    <sql id="Base_Column_List">
+        id, hotspot_mini_course_id, hotspo_type, hotspot_source, hotspot_belonging, hotspot_title, hotspot_id, review_status, created_time, sort_value
+    </sql>
+
+</mapper>

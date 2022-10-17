@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.ke.live.mapper.VideoMiniCourseMapper">
+
+    <!-- 通用查询映射结果 -->
+    <resultMap id="BaseResultMap" type="com.ke.live.entity.VideoMiniCourse">
+        <id column="id" property="id" />
+        <result column="video_id" property="videoId" />
+        <result column="video_title" property="videoTitle" />
+        <result column="feed_id" property="feedId" />
+        <result column="video_source" property="videoSource" />
+        <result column="video_picture" property="videoPicture" />
+        <result column="review_status" property="reviewStatus" />
+        <result column="created_time" property="createdTime" />
+        <result column="sort_value" property="sortValue" />
+    </resultMap>
+
+    <!-- 通用查询结果列 -->
+    <sql id="Base_Column_List">
+        id, video_id, video_title, feed_id, video_source, video_picture, review_status, created_time, sort_value
+    </sql>
+
+</mapper>

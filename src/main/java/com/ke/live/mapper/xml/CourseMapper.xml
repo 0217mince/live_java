@@ -1,0 +1,47 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.ke.live.mapper.CourseMapper">
+
+    <!-- 通用查询映射结果 -->
+    <resultMap id="BaseResultMap" type="com.ke.live.entity.Course">
+        <id column="courseId" property="courseId" />
+        <result column="courseName" property="courseName" />
+        <result column="startTime" property="startTime" />
+        <result column="endTime" property="endTime" />
+        <result column="coursePrice" property="coursePrice" />
+        <result column="courseIntroduce" property="courseIntroduce" />
+        <result column="coursePhoto" property="coursePhoto" />
+        <result column="speakerName" property="speakerName" />
+        <result column="speakerId" property="speakerId" />
+        <result column="organ" property="organ" />
+        <result column="depart" property="depart" />
+        <result column="speakerIntroduce" property="speakerIntroduce" />
+        <result column="speakerPhoto" property="speakerPhoto" />
+        <result column="speakerPhotoType" property="speakerPhotoType" />
+        <result column="signUpNum" property="signUpNum" />
+        <result column="signUpVirtualNum" property="signUpVirtualNum" />
+        <result column="createDate" property="createDate" />
+        <result column="courseStatus" property="courseStatus" />
+        <result column="lastModify" property="lastModify" />
+        <result column="remindFlag" property="remindFlag" />
+        <result column="invitationCardBackground" property="invitationCardBackground" />
+        <result column="invitationCard" property="invitationCard" />
+        <result column="sessionId" property="sessionId" />
+        <result column="courseType" property="courseType" />
+        <result column="linkUrl" property="linkUrl" />
+        <result column="auditStatus" property="auditStatus" />
+        <result column="currentClient" property="currentClient" />
+        <result column="baseClientId" property="baseClientId" />
+        <result column="liveType" property="liveType" />
+        <result column="readStatus" property="readStatus" />
+        <result column="recordingStatus" property="recordingStatus" />
+        <result column="courseTab" property="courseTab" />
+        <result column="limitSignUpNum" property="limitSignUpNum" />
+    </resultMap>
+
+    <!-- 通用查询结果列 -->
+    <sql id="Base_Column_List">
+        courseId, courseName, startTime, endTime, coursePrice, courseIntroduce, coursePhoto, speakerName, speakerId, organ, depart, speakerIntroduce, speakerPhoto, speakerPhotoType, signUpNum, signUpVirtualNum, createDate, courseStatus, lastModify, remindFlag, invitationCardBackground, invitationCard, sessionId, courseType, linkUrl, auditStatus, currentClient, baseClientId, liveType, readStatus, recordingStatus, courseTab, limitSignUpNum
+    </sql>
+
+</mapper>
